@@ -25,9 +25,8 @@
                 <a href="@Url.Content($"~/p/{item.Url}")">@item.Title</a>
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a href="@Url.Content($"~/p/{item.Url}")">View</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a href="@Url.Content($"~/p/{item.Url}")">Display</a> |
+                <a href="@Url.Content($"/page/{item.Id}/activity")">Activity</a>
             </td>
         </tr>
 }

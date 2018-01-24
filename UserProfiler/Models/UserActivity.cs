@@ -19,6 +19,7 @@ namespace UserProfiler.Models
 
         public ContentPage ContentPage { get; set; }
 
+        public AnonymousUser AnonymousUser { get; set; }
 
         public Guid AnonymousUserId { get; set; }
 

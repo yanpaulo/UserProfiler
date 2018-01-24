@@ -9,86 +9,86 @@ using UserProfiler.Models;
 
 namespace UserProfiler.Controllers
 {
-    public class ContentPagesController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ContentPagesController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ContentPages
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ContentPages.ToListAsync());
-        }
-        
-        // GET: ContentPages/Details/5
-        [Route("/p/{url}")]
-        public async Task<IActionResult> Display(string url)
-        {
-            if (url == null)
-            {
-                return NotFound();
-            }
-
-            var contentPage = await _context.ContentPages
-                .SingleOrDefaultAsync(m => url.Contains(m.Url));
-            if (contentPage == null)
-            {
-                return NotFound();
-            }
-
-            return View(contentPage);
+            return View(await _context.AnonymousUsers.ToListAsync());
         }
 
-        // GET: ContentPages/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ContentPages/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Url")] ContentPage contentPage)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(contentPage);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contentPage);
-        }
-
-        // GET: ContentPages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Users/Details/5
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contentPage = await _context.ContentPages.SingleOrDefaultAsync(m => m.Id == id);
-            if (contentPage == null)
+            var anonymousUser = await _context.AnonymousUsers
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (anonymousUser == null)
             {
                 return NotFound();
             }
-            return View(contentPage);
+
+            return View(anonymousUser);
         }
 
-        // POST: ContentPages/Edit/5
+        // GET: Users/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Url")] ContentPage contentPage)
+        public async Task<IActionResult> Create([Bind("Id,AppVersion,UserAgent,CreationDate")] AnonymousUser anonymousUser)
         {
-            if (id != contentPage.Id)
+            if (ModelState.IsValid)
+            {
+                anonymousUser.Id = Guid.NewGuid();
+                _context.Add(anonymousUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(anonymousUser);
+        }
+
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var anonymousUser = await _context.AnonymousUsers.SingleOrDefaultAsync(m => m.Id == id);
+            if (anonymousUser == null)
+            {
+                return NotFound();
+            }
+            return View(anonymousUser);
+        }
+
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,AppVersion,UserAgent,CreationDate")] AnonymousUser anonymousUser)
+        {
+            if (id != anonymousUser.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace UserProfiler.Controllers
             {
                 try
                 {
-                    _context.Update(contentPage);
+                    _context.Update(anonymousUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContentPageExists(contentPage.Id))
+                    if (!AnonymousUserExists(anonymousUser.Id))
                     {
                         return NotFound();
                     }
@@ -113,41 +113,41 @@ namespace UserProfiler.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contentPage);
+            return View(anonymousUser);
         }
 
-        // GET: ContentPages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Users/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contentPage = await _context.ContentPages
+            var anonymousUser = await _context.AnonymousUsers
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (contentPage == null)
+            if (anonymousUser == null)
             {
                 return NotFound();
             }
 
-            return View(contentPage);
+            return View(anonymousUser);
         }
 
-        // POST: ContentPages/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var contentPage = await _context.ContentPages.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ContentPages.Remove(contentPage);
+            var anonymousUser = await _context.AnonymousUsers.SingleOrDefaultAsync(m => m.Id == id);
+            _context.AnonymousUsers.Remove(anonymousUser);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContentPageExists(int id)
+        private bool AnonymousUserExists(Guid id)
         {
-            return _context.ContentPages.Any(e => e.Id == id);
+            return _context.AnonymousUsers.Any(e => e.Id == id);
         }
     }
 }

@@ -9,6 +9,17 @@ $(function () {
 
     self.userId = localStorage.getItem(storageKey);
     if (self.userId == null) {
+        createAnonymousUser();
+    }
+    else {
+        createUserActivity("load");
+    }
+
+    $(window).unload(function () {
+        createUserActivity("unload");
+    });
+
+    function createAnonymousUser() {
         var user = {
             appVersion: navigator.appVersion,
             userAgent: navigator.userAgent
@@ -25,17 +36,6 @@ $(function () {
             }
         });
     }
-    else {
-        createAndPostUserActivity("load");
-    }
-
-    $(window).unload(function () {
-        createAndPostUserActivity("unload");
-    });
-
-    function createAndPostUserActivity(kind) {
-        postUserActivity(createUserActivity(kind))
-    };
 
     function createUserActivity(kind) {
         var activity = {
@@ -49,10 +49,6 @@ $(function () {
             activity.location = self.userLocation.latitude + ", " + self.userLocation.longitude;
         }
 
-        return activity;
-    }
-
-    function postUserActivity(activity) {
         $.ajax({
             url: "/api/UserActivities",
             data: JSON.stringify(activity),

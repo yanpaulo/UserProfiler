@@ -1,0 +1,36 @@
+﻿@model UserProfiler.Models.AnonymousUser
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AnonymousUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AppVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppVersion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAgent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserAgent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
