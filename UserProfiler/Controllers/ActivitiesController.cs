@@ -24,7 +24,8 @@ namespace UserProfiler.Controllers
         public async Task<IActionResult> Index(Guid? userId, int? pageId)
         {
             var applicationDbContext = _context.UserActivities.Include(u => u.AnonymousUser).Include(u => u.ContentPage)
-                .Where(a => a.AnonymousUserId == userId || a.ContentPageId == pageId);
+                .Where(a => a.AnonymousUserId == userId || a.ContentPageId == pageId)
+                .OrderByDescending(a => a.Date);
             return View(await applicationDbContext.ToListAsync());
         }
 

@@ -37,8 +37,8 @@
                 @Html.DisplayFor(modelItem => item.CreationDate)
             </td>
             <td>
-                <a href="@Url.Content($"/user/{item.Id}/activity")">Activity</a>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a href="@Url.Content($"~/user/{item.Id}/activity")">Activity</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

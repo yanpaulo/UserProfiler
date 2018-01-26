@@ -21,7 +21,7 @@ namespace UserProfiler.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AnonymousUsers.ToListAsync());
+            return View(await _context.AnonymousUsers.OrderByDescending(u => u.CreationDate).ToListAsync());
         }
 
         // GET: Users/Details/5

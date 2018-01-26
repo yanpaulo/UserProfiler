@@ -9,17 +9,20 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Kind)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Coordinates)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kind)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coordinates)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.AnonymousUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnonymousUser.UserAgent)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ContentPage)
@@ -28,7 +31,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Kind)
@@ -40,15 +44,18 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AnonymousUser.AppVersion)
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@item.AnonymousUser.Id">@item.AnonymousUser.Id</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContentPage.Title)
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@item.AnonymousUser.Id">@item.AnonymousUser.UserAgent</a>
+            </td>
+            <td>
+                <a asp-controller="ContentPages" asp-action="View" asp-route-id="@item.ContentPage.Id">@item.ContentPage.Id</a>
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
