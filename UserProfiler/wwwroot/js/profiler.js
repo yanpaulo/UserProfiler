@@ -4,7 +4,9 @@
         //Chave do localStorage que armazena o id do usuário
         userIdKey: "profiler-{C04C0B48-97FF-4333-8AB1-94ECCD1A5DC6}",
         //Chave do sessionStorage que armazena a última localização de usuário disponível
-        locationKey: "profiler-{1694CB31-CAD4-4C61-8A98-5CFCB09F2115}"
+        locationKey: "profiler-{1694CB31-CAD4-4C61-8A98-5CFCB09F2115}",
+        usersUrl: "/api/AnonymousUsers",
+        activitiesUrl: "/api/UserActivities"
     };
 
     //Referência deste objeto para utilizar nas funções locais.
@@ -16,9 +18,11 @@
     //Tenta atualizar a localização conhecida.
     navigator.geolocation.getCurrentPosition(
         function (result) {
-            self.userLocation = result.coords;
+            self.userLocation = result.coords.latitude + ", " + result.coords.longitude;
+            sessionStorage.setItem(settings.locationKey, self.userLocation);
         }, function () {
             self.userLocation = null;
+            sessionStorage.removeItem(settings.locationKey);
         });
 
     //Registra os eventos relevantes.
@@ -26,6 +30,8 @@
         createActivity("unload");
     });
 
+    //Tenta criar a "activity" para carregamento da página.
+    createActivityOrUser();
 
     //Funções locais
     //
@@ -48,7 +54,7 @@
             userAgent: navigator.userAgent
         };
         $.ajax({
-            url: "/api/AnonymousUsers",
+            url: settings.usersUrl,
             data: JSON.stringify(user),
             method: "POST",
             contentType: "application/json",
@@ -65,20 +71,20 @@
         var activity = {
             kind: kind,
             anonymousUserId: self.userId,
+            location: self.userLocation,
             contentPage: {
                 url: location.pathname
             }
         };
-        if (self.userLocation) {
-            activity.location = self.userLocation.latitude + ", " + self.userLocation.longitude;
-        }
 
         $.ajax({
-            url: "/api/UserActivities",
+            url: settings.activitiesUrl,
             data: JSON.stringify(activity),
             method: "POST",
             contentType: "application/json",
             statusCode: {
+                //Erro 400 indica que o usuário não existe mais no servidor.
+                //Deve-se remove-lo também localmente.
                 400: deleteUser
             }
         });
