@@ -44,9 +44,9 @@ namespace UserProfiler.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     AnonymousUserId = table.Column<Guid>(nullable: false),
                     ContentPageId = table.Column<int>(nullable: false),
-                    Coordinates = table.Column<string>(nullable: true),
                     Date = table.Column<DateTimeOffset>(nullable: false),
-                    Kind = table.Column<string>(nullable: false)
+                    Kind = table.Column<string>(nullable: false),
+                    Location = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

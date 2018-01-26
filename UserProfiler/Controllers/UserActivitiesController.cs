@@ -56,12 +56,22 @@ namespace UserProfiler.Controllers
                 return BadRequest(ModelState);
             }
 
-            var page = _context.ContentPages.SingleOrDefault(p => userActivity.ContentPage.Url.Contains(p.Url));
+            var url = userActivity.ContentPage.Url;
+            url = url.Remove(0, url.LastIndexOf("/") + 1);
+            var page = _context.ContentPages.FirstOrDefault(p => p.Url.ToLower() == url.ToLower());
+
             if (page == null)
             {
                 ModelState.AddModelError("ContentPage.Url", "Página Inexistente");
                 return BadRequest(ModelState);
             }
+            if (!_context.AnonymousUsers.Any(u => u.Id == userActivity.AnonymousUserId))
+            {
+                ModelState.AddModelError("AnonymousUserId", "Usuário Inexistente");
+                return BadRequest(ModelState);
+            }
+
+
             userActivity.ContentPage = page;
             userActivity.Date = DateTimeOffset.UtcNow;
 

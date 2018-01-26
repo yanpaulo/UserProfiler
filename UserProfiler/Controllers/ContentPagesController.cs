@@ -34,7 +34,7 @@ namespace UserProfiler.Controllers
             }
 
             var contentPage = await _context.ContentPages
-                .SingleOrDefaultAsync(m => url.Contains(m.Url));
+                .SingleOrDefaultAsync(m => m.Url.ToLower() == url.ToLower());
             if (contentPage == null)
             {
                 return NotFound();

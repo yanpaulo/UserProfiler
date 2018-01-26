@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.Kind)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Coordinates)
+                @Html.DisplayNameFor(model => model.Location)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Kind)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Coordinates)
+                @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -50,7 +50,7 @@
                 <a asp-controller="Users" asp-action="Details" asp-route-id="@item.AnonymousUser.Id">@item.AnonymousUser.UserAgent</a>
             </td>
             <td>
-                <a asp-controller="ContentPages" asp-action="View" asp-route-id="@item.ContentPage.Id">@item.ContentPage.Id</a>
+                <a asp-controller="ContentPages" asp-action="View" asp-route-id="@item.ContentPage.Id">@item.ContentPage.Title</a>
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>

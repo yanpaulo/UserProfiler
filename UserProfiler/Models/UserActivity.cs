@@ -13,7 +13,7 @@ namespace UserProfiler.Models
         [Required]
         public string Kind { get; set; }
 
-        public string Coordinates { get; set; }
+        public string Location { get; set; }
 
         public DateTimeOffset Date { get; set; }
 

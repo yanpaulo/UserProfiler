@@ -11,7 +11,7 @@ using UserProfiler.Models;
 namespace UserProfiler.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180124121216_InitialCreate")]
+    [Migration("20180126193528_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,12 +63,12 @@ namespace UserProfiler.Migrations
 
                     b.Property<int>("ContentPageId");
 
-                    b.Property<string>("Coordinates");
-
                     b.Property<DateTimeOffset>("Date");
 
                     b.Property<string>("Kind")
                         .IsRequired();
+
+                    b.Property<string>("Location");
 
                     b.HasKey("Id");
 
@@ -81,7 +81,7 @@ namespace UserProfiler.Migrations
 
             modelBuilder.Entity("UserProfiler.Models.UserActivity", b =>
                 {
-                    b.HasOne("UserProfiler.Models.AnonymousUser")
+                    b.HasOne("UserProfiler.Models.AnonymousUser", "AnonymousUser")
                         .WithMany("ActivityHistory")
                         .HasForeignKey("AnonymousUserId")
                         .OnDelete(DeleteBehavior.Cascade);
